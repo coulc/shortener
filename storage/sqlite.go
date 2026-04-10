@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"errors"
 	"log/slog"
+	"os"
+	"path/filepath"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -20,6 +22,15 @@ type SQLiteStorage struct {
 }
 
 func NewSQLiteStorage(dbPath string) (*SQLiteStorage,error) {
+	// dir := filepath.Dir(dbPath)
+	// if err := os.MkdirAll(dir, 0755); err != nil {
+	// 	slog.Error("Failed to create database directory", "err", err, "dir", dir)
+	// 	return nil, err
+	// }
+	if err := EnsureDir(dbPath);err != nil {
+		return  nil,err
+	}
+
 	db,err := sql.Open("sqlite3",dbPath)	
 	if err != nil {
 		return nil,err
@@ -114,3 +125,13 @@ func (s *SQLiteStorage)Delete(shortCode string) error {
 func (s *SQLiteStorage)Close() error {
 	return s.db.Close()
 }
+
+func EnsureDir(path string) error {
+	dir := filepath.Dir(path)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		slog.Error("Failed to create database directory", "err", err, "dir", dir)
+		return err
+	}
+	return nil
+}
+
