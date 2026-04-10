@@ -21,7 +21,6 @@ func dbInit() (*handler.ShortenerHandler,func()) {
 
 func routesInit(h *handler.ShortenerHandler) {
 	http.HandleFunc("POST /shorten",h.CreateShortURL)
-// 	http.HandleFunc("GET /shorten/{shortCode}",h.Redirect)
 	http.HandleFunc("GET /{shortCode}",h.Redirect)
 	http.HandleFunc("DELETE /{shortCode}",h.DeleteShortURL)
 	http.HandleFunc("GET /{$}",handler.Index)

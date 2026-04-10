@@ -54,9 +54,9 @@ cd shortener
 go mod tidy
 ```
 ### Run the Service
+The server will start on http://localhost:8080
 ```bash
 go run cmd/*.go
-The server will start on http://localhost:8080
 ```
 
 ### Run Tests
